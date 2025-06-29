@@ -60,8 +60,7 @@ class SelectionMenu extends SelectionMenuService {
     _selectionMenuEntry = null;
 
     // workaround: SelectionService has been released after hot reload.
-    final isSelectionDisposed =
-        editorState.service.selectionServiceKey.currentState == null;
+    final isSelectionDisposed = editorState.service.selectionServiceKey.currentState == null;
     if (!isSelectionDisposed) {
       final selectionService = editorState.service.selectionService;
       // focus to reload the selection after the menu dismissed.
@@ -165,8 +164,7 @@ class SelectionMenu extends SelectionMenuService {
 
   void _onSelectionChange() {
     // workaround: SelectionService has been released after hot reload.
-    final isSelectionDisposed =
-        editorState.service.selectionServiceKey.currentState == null;
+    final isSelectionDisposed = editorState.service.selectionServiceKey.currentState == null;
     if (!isSelectionDisposed) {
       final selectionService = editorState.service.selectionService;
       if (selectionService.currentSelection.value == null) {
@@ -212,8 +210,7 @@ class SelectionMenu extends SelectionMenuService {
     // but the coordinates of overlay are not properly converted currently.
     // Just subtract the padding here as a result.
     const menuOffset = Offset(0, 10);
-    final editorOffset =
-        editorState.renderBox?.localToGlobal(Offset.zero) ?? Offset.zero;
+    final editorOffset = editorState.renderBox?.localToGlobal(Offset.zero) ?? Offset.zero;
     final editorHeight = editorState.renderBox!.size.height;
     final editorWidth = editorState.renderBox!.size.width;
 
@@ -246,9 +243,7 @@ class SelectionMenu extends SelectionMenuService {
       );
     } else if (offset.dx - editorOffset.dx > menuWidth) {
       // show on left
-      _alignment = _alignment == Alignment.topLeft
-          ? Alignment.topRight
-          : Alignment.bottomRight;
+      _alignment = _alignment == Alignment.topLeft ? Alignment.topRight : Alignment.bottomRight;
 
       _offset = Offset(
         editorWidth - _offset.dx + editorOffset.dx,
@@ -366,6 +361,21 @@ final List<SelectionMenuItem> standardSelectionMenuItems = [
     keywords: ['quote', 'refer'],
     handler: (editorState, _, __) {
       insertQuoteAfterSelection(editorState);
+    },
+  ),
+  SelectionMenuItem(
+    getName: () => 'Code Block',
+    icon: (editorState, isSelected, style) => SelectionMenuIconWidget(
+      icon: Icons.code,
+      isSelected: isSelected,
+      style: style,
+    ),
+    keywords: ['code', 'block'],
+    handler: (editorState, _, __) {
+      insertNodeAfterSelection(
+        editorState,
+        codeBlockNode(),
+      );
     },
   ),
   dividerMenuItem,

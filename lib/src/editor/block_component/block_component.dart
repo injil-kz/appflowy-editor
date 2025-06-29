@@ -55,3 +55,5 @@ export 'table_block_component/table_commands.dart';
 export 'todo_list_block_component/todo_list_block_component.dart';
 export 'todo_list_block_component/todo_list_character_shortcut.dart';
 export 'todo_list_block_component/todo_list_command_shortcut.dart';
+// code block
+export 'code_block_block_component/code_block_block_component.dart';

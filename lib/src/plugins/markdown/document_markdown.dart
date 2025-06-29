@@ -3,6 +3,7 @@ library;
 import 'dart:convert';
 
 import 'package:appflowy_editor/appflowy_editor.dart';
+import 'package:appflowy_editor/src/plugins/markdown/decoder/parser/markdown_code_block_parser.dart';
 import 'package:markdown/markdown.dart' as md;
 
 /// Converts a markdown to [Document].
@@ -28,6 +29,7 @@ Document markdownToDocument(
       const MarkdownTableListParserV2(),
       const MarkdownDividerParserV2(),
       const MarkdownImageParserV2(),
+      const MarkdownCodeBlockParserV2(),
     ],
   ).decode(markdown);
 }
