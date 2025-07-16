@@ -247,7 +247,7 @@ class _CodeBlockComponentWidgetState extends State<CodeBlockComponentWidget>
                   placeholderText: placeholderText,
                   // textSpanDecorator: (textSpan) => textSpan,
                   textSpanDecorator: (textSpan) => TextSpan(
-                    style: textSpan.style,
+                    // Don't use textSpan.style here as it overrides our syntax highlighting
                     children: _codeTextSpans,
                   ),
                   placeholderTextSpanDecorator: (textSpan) =>
@@ -324,16 +324,13 @@ class _CodeBlockComponentWidgetState extends State<CodeBlockComponentWidget>
 
     void traverse(highlight.Node node) {
       if (node.value != null) {
-        currentSpans.add(
-          node.className == null
-              ? TextSpan(text: node.value, style: fontFamily) // Use fontFamily for unstyled text
-              : TextSpan(
-                  text: node.value, style: cbTheme[node.className!] ?? fontFamily), // Fallback to fontFamily if class not found
-        );
+        final style = node.className != null ? (cbTheme[node.className!] ?? fontFamily) : fontFamily;
+        currentSpans.add(TextSpan(text: node.value, style: style));
       } else if (node.children != null) {
         final List<TextSpan> tmp = [];
+        final parentStyle = node.className != null ? cbTheme[node.className!] : null;
         currentSpans.add(
-          TextSpan(children: tmp, style: node.className != null ? cbTheme[node.className!] : null),
+          TextSpan(children: tmp, style: parentStyle),
         );
         stack.add(currentSpans);
         currentSpans = tmp;
