@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as highlighter;
 import 'package:flutter/services.dart';
+import 'package:highlight/highlight.dart' as highlight;
 import 'package:provider/provider.dart';
 
 final programmingLanguages = [
@@ -246,7 +244,8 @@ class _CodeBlockComponentWidgetState extends State<CodeBlockComponentWidget>
                   editorState: editorState,
                   textAlign: alignment?.toTextAlign ?? textAlign,
                   placeholderText: placeholderText,
-                  textSpanDecorator: (textSpan) => textSpan,
+                  // textSpanDecorator: (textSpan) => textSpan,
+                  textSpanDecorator: (_) => TextSpan(children: _codeTextSpans),
                   placeholderTextSpanDecorator: (textSpan) =>
                       textSpan.updateTextStyle(placeholderTextStyleWithTextSpan(textSpan: textSpan)),
                   textDirection: textDirection,
@@ -293,6 +292,76 @@ class _CodeBlockComponentWidgetState extends State<CodeBlockComponentWidget>
 
     return child;
   }
+
+  // Widget _buildCodeBlock(BuildContext context, TextDirection textDirection) {
+  //   return AppFlowyRichText(
+  //     key: forwardKey,
+  //     delegate: this,
+  //     node: widget.node,
+  //     editorState: editorState,
+  //     placeholderText: placeholderText,
+  //     lineHeight: 1.5,
+  //     placeholderTextSpanDecorator: (textSpan) => textSpan,
+  //     textSpanDecorator: (_) => TextSpan(children: codeTextSpans),
+  //     textDirection: textDirection,
+  //     cursorColor: editorState.editorStyle.cursorColor,
+  //     selectionColor: editorState.editorStyle.selectionColor,
+  //   );
+  // }
+
+  List<TextSpan> get _codeTextSpans {
+    final delta = node.delta ?? Delta();
+    final content = delta.toPlainText();
+
+    final result = highlight.highlight.parse(
+      content,
+      language: programmingLanguageOfNode,
+    );
+
+    final codeNodes = result.nodes;
+    if (codeNodes == null) {
+      throw Exception('Code block parse error.');
+    }
+
+    final codeTextSpans = _convert(codeNodes);
+    return codeTextSpans;
+  }
+
+  List<TextSpan> _convert(List<highlight.Node> nodes) {
+    final List<TextSpan> spans = [];
+    List<TextSpan> currentSpans = spans;
+    final List<List<TextSpan>> stack = [];
+
+    final cbTheme = darkThemeInCodeBlock;
+
+    void traverse(highlight.Node node) {
+      if (node.value != null) {
+        currentSpans.add(
+          node.className == null ? TextSpan(text: node.value) : TextSpan(text: node.value, style: cbTheme[node.className!]),
+        );
+      } else if (node.children != null) {
+        final List<TextSpan> tmp = [];
+        currentSpans.add(
+          TextSpan(children: tmp, style: cbTheme[node.className!]),
+        );
+        stack.add(currentSpans);
+        currentSpans = tmp;
+
+        for (final n in node.children!) {
+          traverse(n);
+          if (n == node.children!.last) {
+            currentSpans = stack.isEmpty ? spans : stack.removeLast();
+          }
+        }
+      }
+    }
+
+    for (final node in nodes) {
+      traverse(node);
+    }
+
+    return spans;
+  }
 }
 
 extension on String {
@@ -301,3 +370,54 @@ extension on String {
     return '${this[0].toUpperCase()}${substring(1)}';
   }
 }
+
+const darkThemeInCodeBlock = {
+  'root': TextStyle(
+    backgroundColor: Color(0xff000000),
+    color: Color(0xfff8f8f8),
+  ),
+  'comment': TextStyle(
+    color: Color(0xffaeaeae),
+    fontStyle: FontStyle.italic,
+  ),
+  'quote': TextStyle(
+    color: Color(0xffaeaeae),
+    fontStyle: FontStyle.italic,
+  ),
+  'keyword': TextStyle(color: Color(0xffe28964)),
+  'selector-tag': TextStyle(color: Color(0xffe28964)),
+  'type': TextStyle(color: Color(0xffe28964)),
+  'string': TextStyle(color: Color(0xff65b042)),
+  'subst': TextStyle(color: Color(0xffdaefa3)),
+  'regexp': TextStyle(color: Color(0xffe9c062)),
+  'link': TextStyle(color: Color(0xffe9c062)),
+  'title': TextStyle(color: Color(0xff89bdff)),
+  'section': TextStyle(color: Color(0xff89bdff)),
+  'tag': TextStyle(color: Color(0xff89bdff)),
+  'name': TextStyle(color: Color(0xff89bdff)),
+  'symbol': TextStyle(color: Color(0xff3387cc)),
+  'bullet': TextStyle(color: Color(0xff3387cc)),
+  'number': TextStyle(color: Color(0xff3387cc)),
+  'params': TextStyle(color: Color(0xff3e87e3)),
+  'variable': TextStyle(color: Color(0xff3e87e3)),
+  'template-variable': TextStyle(color: Color(0xff3e87e3)),
+  'attribute': TextStyle(color: Color(0xffcda869)),
+  'meta': TextStyle(color: Color(0xff8996a8)),
+  'formula': TextStyle(
+    backgroundColor: Color(0xff0e2231),
+    color: Color(0xfff8f8f8),
+    fontStyle: FontStyle.italic,
+  ),
+  'addition': TextStyle(
+    backgroundColor: Color(0xff253b22),
+    color: Color(0xfff8f8f8),
+  ),
+  'deletion': TextStyle(
+    backgroundColor: Color(0xff420e09),
+    color: Color(0xfff8f8f8),
+  ),
+  'selector-class': TextStyle(color: Color(0xff9b703f)),
+  'selector-id': TextStyle(color: Color(0xff8b98ab)),
+  'emphasis': TextStyle(fontStyle: FontStyle.italic),
+  'strong': TextStyle(fontWeight: FontWeight.bold),
+};
