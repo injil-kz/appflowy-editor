@@ -246,7 +246,10 @@ class _CodeBlockComponentWidgetState extends State<CodeBlockComponentWidget>
                   textAlign: alignment?.toTextAlign ?? textAlign,
                   placeholderText: placeholderText,
                   // textSpanDecorator: (textSpan) => textSpan,
-                  textSpanDecorator: (_) => TextSpan(children: _codeTextSpans),
+                  textSpanDecorator: (textSpan) => TextSpan(
+                    style: textSpan.style,
+                    children: _codeTextSpans,
+                  ),
                   placeholderTextSpanDecorator: (textSpan) =>
                       textSpan.updateTextStyle(placeholderTextStyleWithTextSpan(textSpan: textSpan)),
                   textDirection: textDirection,
