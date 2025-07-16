@@ -367,10 +367,7 @@ final fontFamily = TextStyle(
 
 // Material Deep Ocean Theme - inspired by Material Design and oceanic colors
 final materialDeepOceanTheme = {
-  'root': fontFamily.copyWith(
-    backgroundColor: Color(0xff222222),
-    color: Color(0xff545454),
-  ),
+  'root': fontFamily.copyWith(color: Color(0xff545454)),
   'comment': fontFamily.copyWith(color: Color(0xff607D8B)), // Greyish/blue shade for comments
   'quote': fontFamily.copyWith(color: Color(0xff607D8B)), // Same as comments for consistency
   'variable': fontFamily.copyWith(color: Color(0xffB2CCD6)), // Lighter blue for variables
@@ -400,4 +397,21 @@ final materialDeepOceanTheme = {
   'addition': fontFamily.copyWith(color: Color(0xffC3E88D)), // Light green, for additions, positive action
   'emphasis': fontFamily.copyWith(fontStyle: FontStyle.italic), // Italic for emphasis
   'strong': fontFamily.copyWith(fontWeight: FontWeight.bold), // Bold for strong emphasis
+  'subst': TextStyle(color: Color(0xffdaefa3)),
+  'formula': TextStyle(
+    backgroundColor: Color(0xff0e2231),
+    color: Color(0xfff8f8f8),
+    fontStyle: FontStyle.italic,
+  ),
+  'attr': TextStyle(color: Color(0xffb57614)),
+  'template-tag': TextStyle(color: Color(0xffb57614)),
+  'doctag': TextStyle(color: Color(0xff8f3f71)),
+  'code': TextStyle(color: Color(0xffaf3a03)),
+  'meta-string': TextStyle(color: Color(0xff79740e)),
+  'selector-attr': TextStyle(color: Color(0xff79740e)),
+  'class': TextStyle(color: Color(0xff427b58)),
+  'function': TextStyle(color: Color(0xff427b58)),
+  'meta-keyword': TextStyle(color: Color(0xff427b58)),
+  'selector-pseudo': TextStyle(color: Color(0xff427b58)),
+  'link_label': TextStyle(color: Color(0xff8f3f71)),
 };
