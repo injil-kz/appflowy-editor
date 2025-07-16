@@ -333,7 +333,7 @@ class _CodeBlockComponentWidgetState extends State<CodeBlockComponentWidget>
       } else if (node.children != null) {
         final List<TextSpan> tmp = [];
         currentSpans.add(
-          TextSpan(children: tmp, style: cbTheme[node.className!]),
+          TextSpan(children: tmp, style: node.className != null ? cbTheme[node.className!] : null),
         );
         stack.add(currentSpans);
         currentSpans = tmp;
