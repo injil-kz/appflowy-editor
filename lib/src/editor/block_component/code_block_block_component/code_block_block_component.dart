@@ -1,6 +1,7 @@
 import 'package:appflowy_editor/appflowy_editor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:highlight/highlight.dart' as highlight;
 import 'package:provider/provider.dart';
 
@@ -172,14 +173,14 @@ class _CodeBlockComponentWidgetState extends State<CodeBlockComponentWidget>
       child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Color(0xff222222),
+          color: Color(0xff0f111a), // Material Deep Ocean background
         ),
         alignment: alignment,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ColoredBox(
-              color: Color(0xff545454),
+              color: Color(0xff1e2030), // Darker header background for Material Deep Ocean
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 child: Row(
@@ -332,7 +333,7 @@ class _CodeBlockComponentWidgetState extends State<CodeBlockComponentWidget>
     List<TextSpan> currentSpans = spans;
     final List<List<TextSpan>> stack = [];
 
-    final cbTheme = darkThemeInCodeBlock;
+    final cbTheme = materialDeepOceanTheme;
 
     void traverse(highlight.Node node) {
       if (node.value != null) {
@@ -371,53 +372,47 @@ extension on String {
   }
 }
 
-const darkThemeInCodeBlock = {
-  'root': TextStyle(
-    backgroundColor: Color(0xff000000),
-    color: Color(0xfff8f8f8),
+final fontFamily = GoogleFonts.robotoMono();
+
+// Material Deep Ocean Theme - inspired by Material Design and oceanic colors
+final materialDeepOceanTheme = {
+  'root': fontFamily.copyWith(
+    backgroundColor: Color(0xff0f111a), // Deep ocean background
+    color: Color(0xff8f93a2), // Muted text color
   ),
-  'comment': TextStyle(
-    color: Color(0xffaeaeae),
+  'comment': fontFamily.copyWith(color: Color(0xff464b5d)), // Dark blue-grey for comments
+  'quote': fontFamily.copyWith(color: Color(0xff464b5d)), // Same as comments
+  'variable': fontFamily.copyWith(color: Color(0xff82aaff)), // Bright ocean blue for variables
+  'template-variable': fontFamily.copyWith(color: Color(0xff82aaff)), // Same as variables
+  'tag': fontFamily.copyWith(color: Color(0xfff78c6c)), // Coral orange for tags
+  'regexp': fontFamily.copyWith(color: Color(0xffff5370)), // Ocean red for regex
+  'meta': fontFamily.copyWith(color: Color(0xffff5370)), // Same as regexp
+  'number': fontFamily.copyWith(color: Color(0xfff78c6c)), // Coral orange for numbers
+  'built_in': fontFamily.copyWith(color: Color(0xff82aaff)), // Ocean blue for built-ins
+  'builtin-name': fontFamily.copyWith(color: Color(0xff82aaff)), // Same as built_in
+  'literal': fontFamily.copyWith(color: Color(0xffc3e88d)), // Sea green for literals
+  'params': fontFamily.copyWith(color: Color(0xffeeffff)), // Light text for parameters
+  'symbol': fontFamily.copyWith(color: Color(0xffc792ea)), // Purple for symbols
+  'bullet': fontFamily.copyWith(color: Color(0xff89ddff)), // Light blue for bullets
+  'link': fontFamily.copyWith(color: Color(0xff89ddff)), // Light blue for links
+  'deletion': fontFamily.copyWith(color: Color(0xffff5370)), // Ocean red for deletions
+  'section': fontFamily.copyWith(color: Color(0xff89ddff)), // Light blue for sections
+  'title': fontFamily.copyWith(color: Color(0xff89ddff)), // Light blue for titles
+  'name': fontFamily.copyWith(color: Color(0xff89ddff)), // Light blue for names
+  'selector-id': fontFamily.copyWith(color: Color(0xfff78c6c)), // Coral for ID selectors
+  'selector-class': fontFamily.copyWith(color: Color(0xffff5370)), // Ocean red for class selectors
+  'type': fontFamily.copyWith(color: Color(0xffff5370)), // Ocean red for types
+  'attribute': fontFamily.copyWith(color: Color(0xffc3e88d)), // Sea green for attributes
+  'string': fontFamily.copyWith(color: Color(0xffc3e88d)), // Sea green for strings
+  'keyword': fontFamily.copyWith(color: Color(0xffc792ea)), // Purple for keywords
+  'selector-tag': fontFamily.copyWith(color: Color(0xff82aaff)), // Ocean blue for tag selectors
+  'addition': fontFamily.copyWith(color: Color(0xffc3e88d)), // Sea green for additions
+  'emphasis': fontFamily.copyWith(fontStyle: FontStyle.italic), // Italic for emphasis
+  'strong': fontFamily.copyWith(fontWeight: FontWeight.bold), // Bold for strong
+  'subst': fontFamily.copyWith(color: Color(0xffeeffff)), // Light text for substitutions
+  'formula': fontFamily.copyWith(
+    backgroundColor: Color(0xff1e2030), // Darker background for formulas
+    color: Color(0xffeeffff),
     fontStyle: FontStyle.italic,
   ),
-  'quote': TextStyle(
-    color: Color(0xffaeaeae),
-    fontStyle: FontStyle.italic,
-  ),
-  'keyword': TextStyle(color: Color(0xffe28964)),
-  'selector-tag': TextStyle(color: Color(0xffe28964)),
-  'type': TextStyle(color: Color(0xffe28964)),
-  'string': TextStyle(color: Color(0xff65b042)),
-  'subst': TextStyle(color: Color(0xffdaefa3)),
-  'regexp': TextStyle(color: Color(0xffe9c062)),
-  'link': TextStyle(color: Color(0xffe9c062)),
-  'title': TextStyle(color: Color(0xff89bdff)),
-  'section': TextStyle(color: Color(0xff89bdff)),
-  'tag': TextStyle(color: Color(0xff89bdff)),
-  'name': TextStyle(color: Color(0xff89bdff)),
-  'symbol': TextStyle(color: Color(0xff3387cc)),
-  'bullet': TextStyle(color: Color(0xff3387cc)),
-  'number': TextStyle(color: Color(0xff3387cc)),
-  'params': TextStyle(color: Color(0xff3e87e3)),
-  'variable': TextStyle(color: Color(0xff3e87e3)),
-  'template-variable': TextStyle(color: Color(0xff3e87e3)),
-  'attribute': TextStyle(color: Color(0xffcda869)),
-  'meta': TextStyle(color: Color(0xff8996a8)),
-  'formula': TextStyle(
-    backgroundColor: Color(0xff0e2231),
-    color: Color(0xfff8f8f8),
-    fontStyle: FontStyle.italic,
-  ),
-  'addition': TextStyle(
-    backgroundColor: Color(0xff253b22),
-    color: Color(0xfff8f8f8),
-  ),
-  'deletion': TextStyle(
-    backgroundColor: Color(0xff420e09),
-    color: Color(0xfff8f8f8),
-  ),
-  'selector-class': TextStyle(color: Color(0xff9b703f)),
-  'selector-id': TextStyle(color: Color(0xff8b98ab)),
-  'emphasis': TextStyle(fontStyle: FontStyle.italic),
-  'strong': TextStyle(fontWeight: FontWeight.bold),
 };
