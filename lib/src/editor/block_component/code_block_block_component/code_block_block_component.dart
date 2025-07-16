@@ -325,7 +325,10 @@ class _CodeBlockComponentWidgetState extends State<CodeBlockComponentWidget>
     void traverse(highlight.Node node) {
       if (node.value != null) {
         currentSpans.add(
-          node.className == null ? TextSpan(text: node.value) : TextSpan(text: node.value, style: cbTheme[node.className!]),
+          node.className == null
+              ? TextSpan(text: node.value, style: fontFamily) // Use fontFamily for unstyled text
+              : TextSpan(
+                  text: node.value, style: cbTheme[node.className!] ?? fontFamily), // Fallback to fontFamily if class not found
         );
       } else if (node.children != null) {
         final List<TextSpan> tmp = [];
@@ -361,7 +364,7 @@ extension on String {
 
 final fontFamily = TextStyle(
   fontSize: 14.0,
-  color: Colors.white,
+  color: Color(0xffEEFFFF), // Light cyan instead of white for better ocean theme consistency
   height: 1.5,
 );
 
