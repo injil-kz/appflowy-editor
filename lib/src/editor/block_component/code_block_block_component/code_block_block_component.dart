@@ -377,42 +377,36 @@ final fontFamily = GoogleFonts.robotoMono();
 // Material Deep Ocean Theme - inspired by Material Design and oceanic colors
 final materialDeepOceanTheme = {
   'root': fontFamily.copyWith(
-    backgroundColor: Color(0xff0f111a), // Deep ocean background
-    color: Color(0xff8f93a2), // Muted text color
+    backgroundColor: Color(0xff222222),
+    color: Color(0xff545454),
   ),
-  'comment': fontFamily.copyWith(color: Color(0xff464b5d)), // Dark blue-grey for comments
-  'quote': fontFamily.copyWith(color: Color(0xff464b5d)), // Same as comments
-  'variable': fontFamily.copyWith(color: Color(0xff82aaff)), // Bright ocean blue for variables
-  'template-variable': fontFamily.copyWith(color: Color(0xff82aaff)), // Same as variables
-  'tag': fontFamily.copyWith(color: Color(0xfff78c6c)), // Coral orange for tags
-  'regexp': fontFamily.copyWith(color: Color(0xffff5370)), // Ocean red for regex
-  'meta': fontFamily.copyWith(color: Color(0xffff5370)), // Same as regexp
-  'number': fontFamily.copyWith(color: Color(0xfff78c6c)), // Coral orange for numbers
-  'built_in': fontFamily.copyWith(color: Color(0xff82aaff)), // Ocean blue for built-ins
-  'builtin-name': fontFamily.copyWith(color: Color(0xff82aaff)), // Same as built_in
-  'literal': fontFamily.copyWith(color: Color(0xffc3e88d)), // Sea green for literals
-  'params': fontFamily.copyWith(color: Color(0xffeeffff)), // Light text for parameters
-  'symbol': fontFamily.copyWith(color: Color(0xffc792ea)), // Purple for symbols
-  'bullet': fontFamily.copyWith(color: Color(0xff89ddff)), // Light blue for bullets
-  'link': fontFamily.copyWith(color: Color(0xff89ddff)), // Light blue for links
-  'deletion': fontFamily.copyWith(color: Color(0xffff5370)), // Ocean red for deletions
-  'section': fontFamily.copyWith(color: Color(0xff89ddff)), // Light blue for sections
-  'title': fontFamily.copyWith(color: Color(0xff89ddff)), // Light blue for titles
-  'name': fontFamily.copyWith(color: Color(0xff89ddff)), // Light blue for names
-  'selector-id': fontFamily.copyWith(color: Color(0xfff78c6c)), // Coral for ID selectors
-  'selector-class': fontFamily.copyWith(color: Color(0xffff5370)), // Ocean red for class selectors
-  'type': fontFamily.copyWith(color: Color(0xffff5370)), // Ocean red for types
-  'attribute': fontFamily.copyWith(color: Color(0xffc3e88d)), // Sea green for attributes
-  'string': fontFamily.copyWith(color: Color(0xffc3e88d)), // Sea green for strings
-  'keyword': fontFamily.copyWith(color: Color(0xffc792ea)), // Purple for keywords
-  'selector-tag': fontFamily.copyWith(color: Color(0xff82aaff)), // Ocean blue for tag selectors
-  'addition': fontFamily.copyWith(color: Color(0xffc3e88d)), // Sea green for additions
+  'comment': fontFamily.copyWith(color: Color(0xff607D8B)), // Greyish/blue shade for comments
+  'quote': fontFamily.copyWith(color: Color(0xff607D8B)), // Same as comments for consistency
+  'variable': fontFamily.copyWith(color: Color(0xffB2CCD6)), // Lighter blue for variables
+  'template-variable': fontFamily.copyWith(color: Color(0xffB2CCD6)), // Same as variables
+  'tag': fontFamily.copyWith(color: Color(0xff7C4DFF)), // Deep purple for tags
+  'regexp': fontFamily.copyWith(color: Color(0xffE53935)), // Red for regular expressions
+  'meta': fontFamily.copyWith(color: Color(0xffE53935)), // Red for meta tags, similar to regexp for attention
+  'number': fontFamily.copyWith(color: Color(0xffF76D47)), // Orange for numbers
+  'built_in': fontFamily.copyWith(color: Color(0xff82B1FF)), // Soft blue for built-in functions
+  'builtin-name': fontFamily.copyWith(color: Color(0xff82B1FF)), // Same as built_in
+  'literal': fontFamily.copyWith(color: Color(0xffDECB6B)), // Yellow for literals
+  'params': fontFamily.copyWith(color: Color(0xffB2CCD6)), // Light blue for parameters, less emphasis
+  'symbol': fontFamily.copyWith(color: Color(0xffE91E63)), // Pink for symbols
+  'bullet': fontFamily.copyWith(color: Color(0xff8D6E63)), // Brownish for bullets
+  'link': fontFamily.copyWith(color: Color(0xff039BE5)), // Bright blue for links
+  'deletion': fontFamily.copyWith(color: Color(0xffE53935)), // Red for deletions, indicating removal or danger
+  'section': fontFamily.copyWith(color: Color(0xff00BFA5)), // Teal for sections
+  'title': fontFamily.copyWith(color: Color(0xff00BFA5)), // Teal for titles, matching sections for consistency
+  'name': fontFamily.copyWith(color: Color(0xff00BFA5)), // Teal for names, consistent with titles/sections
+  'selector-id': fontFamily.copyWith(color: Color(0xff7C4DFF)), // Deep purple, same as tags for ID selectors
+  'selector-class': fontFamily.copyWith(color: Color(0xff7C4DFF)), // Deep purple for class selectors, matching tags
+  'type': fontFamily.copyWith(color: Color(0xff82B1FF)), // Soft blue for types, readability
+  'attribute': fontFamily.copyWith(color: Color(0xffFFC107)), // Amber for attributes, standout
+  'string': fontFamily.copyWith(color: Color(0xffC3E88D)), // Light green for strings
+  'keyword': fontFamily.copyWith(color: Color(0xffC792EA)), // Light purple for keywords
+  'selector-tag': fontFamily.copyWith(color: Color(0xff7C4DFF)), // Deep purple, consistency with tag selectors
+  'addition': fontFamily.copyWith(color: Color(0xffC3E88D)), // Light green, for additions, positive action
   'emphasis': fontFamily.copyWith(fontStyle: FontStyle.italic), // Italic for emphasis
-  'strong': fontFamily.copyWith(fontWeight: FontWeight.bold), // Bold for strong
-  'subst': fontFamily.copyWith(color: Color(0xffeeffff)), // Light text for substitutions
-  'formula': fontFamily.copyWith(
-    backgroundColor: Color(0xff1e2030), // Darker background for formulas
-    color: Color(0xffeeffff),
-    fontStyle: FontStyle.italic,
-  ),
+  'strong': fontFamily.copyWith(fontWeight: FontWeight.bold), // Bold for strong emphasis
 };
