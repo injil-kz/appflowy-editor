@@ -297,22 +297,6 @@ class _CodeBlockComponentWidgetState extends State<CodeBlockComponentWidget>
     return child;
   }
 
-  // Widget _buildCodeBlock(BuildContext context, TextDirection textDirection) {
-  //   return AppFlowyRichText(
-  //     key: forwardKey,
-  //     delegate: this,
-  //     node: widget.node,
-  //     editorState: editorState,
-  //     placeholderText: placeholderText,
-  //     lineHeight: 1.5,
-  //     placeholderTextSpanDecorator: (textSpan) => textSpan,
-  //     textSpanDecorator: (_) => TextSpan(children: codeTextSpans),
-  //     textDirection: textDirection,
-  //     cursorColor: editorState.editorStyle.cursorColor,
-  //     selectionColor: editorState.editorStyle.selectionColor,
-  //   );
-  // }
-
   List<TextSpan> get _codeTextSpans {
     final delta = node.delta ?? Delta();
     final content = delta.toPlainText();
@@ -375,7 +359,11 @@ extension on String {
   }
 }
 
-final fontFamily = GoogleFonts.robotoMono();
+final fontFamily = TextStyle(
+  fontSize: 14.0,
+  color: Colors.white,
+  height: 1.5,
+);
 
 // Material Deep Ocean Theme - inspired by Material Design and oceanic colors
 final materialDeepOceanTheme = {
