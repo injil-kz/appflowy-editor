@@ -368,7 +368,7 @@ extension on String {
 
 final fontFamily = TextStyle(
   fontSize: 14.0,
-  color: Color(0xffEEFFFF), // Light cyan instead of white for better ocean theme consistency
+  // color: Color(0xffEEFFFF), // Light cyan instead of white for better ocean theme consistency
   height: 1.5,
 );
 
