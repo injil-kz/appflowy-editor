@@ -324,23 +324,30 @@ class _CodeBlockComponentWidgetState extends State<CodeBlockComponentWidget>
 
     void traverse(highlight.Node node) {
       if (node.value != null) {
-        final style = node.className != null ? (cbTheme[node.className!] ?? fontFamily) : fontFamily;
+        // For nodes with actual text content
+        final style = node.className != null ? cbTheme[node.className!] ?? fontFamily : fontFamily;
         currentSpans.add(TextSpan(text: node.value, style: style));
       } else if (node.children != null) {
+        // For nodes with children (containers)
         final List<TextSpan> tmp = [];
         final parentStyle = node.className != null ? cbTheme[node.className!] : null;
-        currentSpans.add(
-          TextSpan(children: tmp, style: parentStyle),
-        );
+
+        // Push current context onto stack
         stack.add(currentSpans);
         currentSpans = tmp;
 
-        for (final n in node.children!) {
-          traverse(n);
-          if (n == node.children!.last) {
-            currentSpans = stack.isEmpty ? spans : stack.removeLast();
-          }
+        // Process all children
+        for (final child in node.children!) {
+          traverse(child);
         }
+
+        // Pop back to parent context
+        currentSpans = stack.removeLast();
+
+        // Add the processed children as a TextSpan
+        currentSpans.add(
+          TextSpan(children: tmp, style: parentStyle),
+        );
       }
     }
 
