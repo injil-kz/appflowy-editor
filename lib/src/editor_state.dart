@@ -28,8 +28,7 @@ class EditorStateDebugInfo {
 /// the type of this value is bool.
 ///
 /// set true to this key to prevent attaching the text service when selection is changed.
-const selectionExtraInfoDoNotAttachTextService =
-    'selectionExtraInfoDoNotAttachTextService';
+const selectionExtraInfoDoNotAttachTextService = 'selectionExtraInfoDoNotAttachTextService';
 
 class ApplyOptions {
   const ApplyOptions({
@@ -140,18 +139,28 @@ class EditorState {
   late EditorStyle editorStyle;
 
   /// The selection notifier of the editor.
-  final PropertyValueNotifier<Selection?> selectionNotifier =
-      PropertyValueNotifier<Selection?>(null);
+  final PropertyValueNotifier<Selection?> selectionNotifier = PropertyValueNotifier<Selection?>(null);
 
   /// The selection of the editor.
   Selection? get selection => selectionNotifier.value;
 
   /// Remote selection is the selection from other users.
-  final PropertyValueNotifier<List<RemoteSelection>> remoteSelections =
-      PropertyValueNotifier<List<RemoteSelection>>([]);
+  final PropertyValueNotifier<List<RemoteSelection>> remoteSelections = PropertyValueNotifier<List<RemoteSelection>>([]);
+
+  // Add this field after the existing selection-related fields
+  Selection? _latestSelection;
+
+  /// The latest non-null selection that was set.
+  /// This is useful for restoring selection after it was temporarily cleared.
+  Selection? get latestSelection => _latestSelection;
 
   /// Sets the selection of the editor.
   set selection(Selection? value) {
+    // Store the latest non-null selection before updating
+    if (value != null) {
+      _latestSelection = value;
+    }
+
     // clear the toggled style when the selection is changed.
     if (selectionNotifier.value != value) {
       _toggledStyle.clear();
@@ -216,10 +225,8 @@ class EditorState {
 
   /// listen to this stream to get notified when the transaction applies.
   Stream<EditorTransactionValue> get transactionStream => _observer.stream;
-  final StreamController<EditorTransactionValue> _observer =
-      StreamController.broadcast(sync: true);
-  final StreamController<EditorTransactionValue> _asyncObserver =
-      StreamController.broadcast();
+  final StreamController<EditorTransactionValue> _observer = StreamController.broadcast(sync: true);
+  final StreamController<EditorTransactionValue> _asyncObserver = StreamController.broadcast();
 
   /// Store the toggled format style, like bold, italic, etc.
   /// All the values must be the key from [AppFlowyRichTextKeys.supportToggled].
@@ -228,8 +235,7 @@ class EditorState {
   ///
   /// NOTES: It only works once;
   ///   after the selection is changed, the toggled style will be cleared.
-  UnmodifiableMapView<String, dynamic> get toggledStyle =>
-      UnmodifiableMapView<String, dynamic>(_toggledStyle);
+  UnmodifiableMapView<String, dynamic> get toggledStyle => UnmodifiableMapView<String, dynamic>(_toggledStyle);
   final _toggledStyle = Attributes();
   late final toggledStyleNotifier = ValueNotifier<Attributes>(toggledStyle);
 
@@ -299,11 +305,9 @@ class EditorState {
 
   final Set<VoidCallback> _onScrollViewScrolledListeners = {};
 
-  void addScrollViewScrolledListener(VoidCallback callback) =>
-      _onScrollViewScrolledListeners.add(callback);
+  void addScrollViewScrolledListener(VoidCallback callback) => _onScrollViewScrolledListeners.add(callback);
 
-  void removeScrollViewScrolledListener(VoidCallback callback) =>
-      _onScrollViewScrolledListeners.remove(callback);
+  void removeScrollViewScrolledListener(VoidCallback callback) => _onScrollViewScrolledListeners.remove(callback);
 
   void _notifyScrollViewScrolledListeners() {
     for (final listener in Set.of(_onScrollViewScrolledListeners)) {
@@ -312,8 +316,7 @@ class EditorState {
   }
 
   RenderBox? get renderBox {
-    final renderObject =
-        service.scrollServiceKey.currentContext?.findRenderObject();
+    final renderObject = service.scrollServiceKey.currentContext?.findRenderObject();
     if (renderObject != null && renderObject is RenderBox) {
       return renderObject;
     }
@@ -440,8 +443,7 @@ class EditorState {
       _recordRedoOrUndo(options, transaction, skipHistoryDebounce);
 
       if (withUpdateSelection) {
-        _selectionUpdateReason =
-            transaction.reason ?? SelectionUpdateReason.transaction;
+        _selectionUpdateReason = transaction.reason ?? SelectionUpdateReason.transaction;
         _selectionType = transaction.customSelectionType;
         if (transaction.selectionExtraInfo != null) {
           selectionExtraInfo = transaction.selectionExtraInfo;
@@ -648,8 +650,7 @@ class EditorState {
     if (options.recordUndo) {
       final undoItem = undoManager.getUndoHistoryItem();
       undoItem.addAll(transaction.operations);
-      if (undoItem.beforeSelection == null &&
-          transaction.beforeSelection != null) {
+      if (undoItem.beforeSelection == null && transaction.beforeSelection != null) {
         undoItem.beforeSelection = transaction.beforeSelection;
       }
       undoItem.afterSelection = transaction.afterSelection;
